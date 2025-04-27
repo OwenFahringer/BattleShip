@@ -15,6 +15,7 @@
 import SwiftUI
 
 struct BoardBuilder: View {
+    @StateObject var vm: ViewModel = ViewModel()
     @State private var ships: [Ship] = [
     Ship(id: 0, size: 3, position: CGPoint(x: 80, y: 420), originalPosition: CGPoint(x: 80, y: 420)),
     Ship(id: 1, size: 4, position: CGPoint(x: 250, y: 420), originalPosition: CGPoint(x: 250, y: 420))
@@ -24,72 +25,78 @@ struct BoardBuilder: View {
     var selected = false
     var selectedColor = Color.yellow
     let gridSize = 10
-    let cellSize: CGFloat = 35
-    @State var xSnapLocations: [CGFloat] = []
-    @State var ySnapLocations: [CGFloat] = []
-    
     var body: some View {
         VStack{
             ZStack{
-            ZStack{
-                RoundedRectangle(cornerRadius:15)//Outer Board
-                    .frame(width: 380,height:380)
-                    .foregroundStyle(Color.darkBlue1)
-                    .shadow(radius: 4)
-                
-                RoundedRectangle(cornerRadius:5)//Cyan Border & background for tiles
-                    .frame(width:350, height:350)
-                    .foregroundStyle(Color.blue)
-                    .shadow(color:.black, radius:5)
-                
-                VStack(spacing: 0) {
-                    ForEach(0..<10, id: \.self) { row in
-                        HStack(spacing: 0) {
-                            ForEach(0..<10, id: \.self) { col in
-                                RoundedRectangle(cornerRadius:3)//Tile rect
-                                    .stroke(lineWidth: 1)
-                                    .frame(width: 35, height: 35)
-                                    .foregroundStyle(Color.normBlue)
-                                    .shadow(color: .cyan ,radius: 2)
-                                //                                    .overlay(
-                                //                                        GeometryReader { geo in
-                                //                                            let position = geo.frame(in: .global).origin
-                                //                                        }
-                                //                                    )
-                                //                                    .onAppear(){
-                                //                                        print("HI")
-                                //                                        if(row == 0 && ySnapLocations.count < 9){
-                                //                                            ySnapLocations += [position.y]
-                                //                                        }
-                                //                                        if(col == 0 && xSnapLocations.count < 9){
-                                //                                            xSnapLocations += [position.x]
-                                //                                        }
-                                //                                    }
+                ZStack{
+                    RoundedRectangle(cornerRadius:15)//Outer Board
+                        .frame(width: 380,height:380)
+                        .foregroundStyle(Color.darkBlue1)
+                        .shadow(radius: 4)
+                    
+                    RoundedRectangle(cornerRadius:5)//Cyan Border & background for tiles
+                        .frame(width:350, height:350)
+                        .foregroundStyle(Color.blue)
+                        .shadow(color:.black, radius:5)
+                    
+                    VStack(spacing: 0) {
+                        ForEach(0..<10, id: \.self) { row in
+                            HStack(spacing: 0) {
+                                ForEach(0..<10, id: \.self) { col in
+                                    RoundedRectangle(cornerRadius:3)//Tile rect
+                                        .stroke(lineWidth: 1)
+                                        .frame(width: 35, height: 35)
+                                        .foregroundStyle(Color.normBlue)
+                                        .shadow(color: .cyan ,radius: 2)
+                                }
                             }
                         }
                     }
                 }
-                .padding(1)
-                Rectangle()
-                    .frame(width:1, height:1000)
-                Rectangle()
-                    .frame(width:1000, height:1)
-            }
-            .position(x:201 ,y:300)
-        }
-            Button{
-                print(UIScreen.screenWidth)
-            }label:{
-                Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                .position(x:UIScreen.screenWidth/2 ,y:250)
+                
+                    Button{
+                        vm.isRotated = true
+                        print(ships[0].originalPosition.x)
+                    }label:{
+                        Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                            .frame(width:35, height:35)
+                            .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(lineWidth: 1)
+                            )
+                    }
+                    .shadow(color: .white ,radius: 2)
+                    .foregroundStyle(.white)
+                    .opacity(0.8)
+                    .position(x:UIScreen.screenWidth/2, y: 680)
+                    Button{
+                        
+                    }label:{
+                        Text("Confirm")
+                            .frame(width:80, height:30)
+                            .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(lineWidth: 1)
+                            )
+                            
+                    }
+                    .shadow(color: .white ,radius: 2)
+                    .foregroundStyle(.white)
+                    .opacity(0.8)
+                    .position(x:UIScreen.screenWidth/2, y: 740)
             }
             Spacer()
                 .frame(height:150)
+        }
+        .onAppear(){
+            vm.buildAxisArrays()
         }
     }
 }
 
 #Preview {
-    BoardBuilder()
+    ContentView()
 }
 extension UIScreen{
    static let screenWidth = UIScreen.main.bounds.size.width

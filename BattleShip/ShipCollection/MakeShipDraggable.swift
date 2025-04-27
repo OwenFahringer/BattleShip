@@ -14,6 +14,8 @@ struct DraggableShipView: View {
     let gridSize: Int
     let shipwidth: CGFloat
     let shipheight: CGFloat
+    @State var cellx: CGFloat = 0
+    @State var celly: CGFloat = 0
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .foregroundStyle(Color.white)
@@ -29,31 +31,34 @@ struct DraggableShipView: View {
                         ship.position = value.location
                     }
                     .onEnded { value in
-                        snapToGrid()
+//                        snapToGrid()
                     }
             )
     }
     
-    private func snapToGrid() {
+    private func newSnapToGrid(){
         
-        
-        let gridOffset: CGFloat = 17.5
-        let boardSize: CGFloat = CGFloat(gridSize) * cellSize
-        
-        // Ensure position is within the board's bounds
-        let clampedX = max(gridOffset, min(ship.position.x, gridOffset + boardSize - CGFloat(ship.size) * cellSize))
-        let clampedY = max(gridOffset, min(ship.position.y, gridOffset + boardSize - cellSize))
-        
-        // Find the nearest tile position
-        let nearestCol = round((clampedX - gridOffset) / cellSize)
-        let nearestRow = round((clampedY - gridOffset) / cellSize)
-        
-        // Calculate new snapped position based on tile center
-        let snappedX = gridOffset + (nearestCol * cellSize) + (CGFloat(ship.size) * cellSize / 2) - (cellSize / 2) - 20.5
-        let snappedY = gridOffset + (nearestRow * cellSize) + (cellSize / 2) - 2
-        
-        ship.position = CGPoint(x: snappedX, y: snappedY)
     }
+//    private func snapToGrid() {
+//        
+//        
+//        let gridOffset: CGFloat = 17.5
+//        let boardSize: CGFloat = CGFloat(gridSize) * cellSize
+//        
+//        // Ensure position is within the board's bounds
+//        let clampedX = max(gridOffset, min(ship.position.x, gridOffset + boardSize - CGFloat(ship.size) * cellSize))
+//        let clampedY = max(gridOffset, min(ship.position.y, gridOffset + boardSize - cellSize))
+//        
+//        // Find the nearest tile position
+//        let nearestCol = round((clampedX - gridOffset) / cellSize)
+//        let nearestRow = round((clampedY - gridOffset) / cellSize)
+//        
+//        // Calculate new snapped position based on tile center
+//        let snappedX = gridOffset + (nearestCol * cellSize) + (CGFloat(ship.size) * cellSize / 2) - (cellSize / 2) - 20.5
+//        let snappedY = gridOffset + (nearestRow * cellSize) + (cellSize / 2) - 2
+//        
+//        ship.position = CGPoint(x: snappedX, y: snappedY)
+//    }
 
 //    
 //    private func isWithinBounds(position: CGPoint, size: Int, gridSize: Int, cellSize: CGFloat) -> Bool {

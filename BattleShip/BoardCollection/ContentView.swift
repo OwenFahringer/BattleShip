@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var vm: ViewModel = ViewModel()
     var body: some View {
         VStack{
             BoardBuilder()
-            Rectangle()
-                .frame(width: 0, height: 0)
         }
+//        .onAppear(){
+//            vm.buildAxisArrays()
+//        }
     }
 }
 

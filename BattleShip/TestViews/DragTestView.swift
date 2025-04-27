@@ -9,7 +9,7 @@
 //Testing for location getter
 import SwiftUI
 
-struct TestingView: View {
+struct DragTestView: View {
     @State var ships: Ship = Ship(id: 1, size:4, position: CGPoint(x: 80, y: 420), originalPosition: CGPoint(x: 80, y: 420))
     @State var xpos: CGFloat = 0
     @State var ypos: CGFloat = 0
@@ -28,11 +28,6 @@ struct TestingView: View {
                         })
                 )
                 .frame(width: 100, height: 100)
-//                .overlay(
-//                    GeometryReader { geo in
-//                        let position = geo.frame(in: .global).origin
-//                    }
-//                )
 Button("Get Location") {
     print("\(xpos), \(ypos)")
             }
@@ -40,5 +35,5 @@ Button("Get Location") {
     }
 }
 #Preview {
-    TestingView()
+    DragTestView()
 }

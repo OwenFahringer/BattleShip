@@ -79,6 +79,9 @@ struct PickerBoard: View {
     func isAlreadyGuessed(tile: [Int]) -> Bool {
         return guessedTiles.contains(tile)
     }
+    func tileIsCorrect(tile: [Int]) -> Bool {
+        return true
+    }
 }
 
 #Preview {
