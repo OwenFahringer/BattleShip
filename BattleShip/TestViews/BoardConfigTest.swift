@@ -27,10 +27,3 @@ struct BoardConfigTest:View {
 #Preview {
     BoardConfigTest()
 }
-enum cellTracking {
-    case adjacent
-    case occupied
-    case empty
-    case hit
-    case miss
-}

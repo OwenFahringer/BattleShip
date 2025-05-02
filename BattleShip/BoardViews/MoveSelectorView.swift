@@ -57,7 +57,7 @@ struct PickerBoard: View {
                 .frame(height:20)
             Text("Currently selected: \(selectedTile[0]), \(selectedTile[1])")
             Button(action: {
-                if !isAlreadyGuessed(tile: selectedTile) {
+                if !isAlreadyGuessed(tile: selectedTile) { 
                     guessedTiles.append(selectedTile)
                     print(selectedTile)
                 }
@@ -86,4 +86,5 @@ struct PickerBoard: View {
 
 #Preview {
     PickerBoard()
+        .environmentObject(ViewModel())
 }

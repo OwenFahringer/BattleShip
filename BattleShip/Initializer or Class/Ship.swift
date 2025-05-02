@@ -12,4 +12,5 @@ struct Ship: Identifiable {
     let size: Int
     var position: CGPoint
     let originalPosition: CGPoint
+    let rotated: Bool
 }

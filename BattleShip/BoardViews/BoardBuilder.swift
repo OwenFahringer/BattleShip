@@ -15,14 +15,7 @@
 import SwiftUI
 
 struct BoardBuilder: View {
-    @StateObject var vm: ViewModel = ViewModel()
-    @State private var ships: [Ship] = [
-    Ship(id: 0, size: 3, position: CGPoint(x: 80, y: 420), originalPosition: CGPoint(x: 80, y: 420)),
-    Ship(id: 1, size: 4, position: CGPoint(x: 250, y: 420), originalPosition: CGPoint(x: 250, y: 420))
-]
-    @State var isRotated: Bool = false //vertical : horizontal
-    var selectedTile = [0,0]
-    var selected = false
+    @EnvironmentObject var vm: ViewModel
     var selectedColor = Color.yellow
     let gridSize = 10
     var body: some View {
@@ -43,9 +36,9 @@ struct BoardBuilder: View {
                         ForEach(0..<10, id: \.self) { row in
                             HStack(spacing: 0) {
                                 ForEach(0..<10, id: \.self) { col in
-                                    RoundedRectangle(cornerRadius:3)//Tile rect
+                                    RoundedRectangle(cornerRadius:0)//Tile rect
                                         .stroke(lineWidth: 1)
-                                        .frame(width: 35, height: 35)
+                                        .frame(width: vm.cellSize, height: vm.cellSize)
                                         .foregroundStyle(Color.normBlue)
                                         .shadow(color: .cyan ,radius: 2)
                                 }
@@ -56,8 +49,15 @@ struct BoardBuilder: View {
                 .position(x:UIScreen.screenWidth/2 ,y:250)
                 
                     Button{
-                        vm.isRotated = true
-                        print(ships[0].originalPosition.x)
+//                        if(vm.isRotated){
+//                            vm.isRotated = false
+//                            ForEach(vm.ships){_ in 
+//                                
+//                            }
+//                        }else{
+//                            vm.isRotated = true
+//                        }
+                        
                     }label:{
                         Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
                             .frame(width:35, height:35)
@@ -65,7 +65,7 @@ struct BoardBuilder: View {
                                 RoundedRectangle(cornerRadius: 5)
                                     .stroke(lineWidth: 1)
                             )
-                    }
+                    } // rotation icon
                     .shadow(color: .white ,radius: 2)
                     .foregroundStyle(.white)
                     .opacity(0.8)
@@ -88,6 +88,7 @@ struct BoardBuilder: View {
             }
             Spacer()
                 .frame(height:150)
+            ShipPlace()
         }
         .onAppear(){
             vm.buildAxisArrays()
@@ -97,9 +98,5 @@ struct BoardBuilder: View {
 
 #Preview {
     ContentView()
-}
-extension UIScreen{
-   static let screenWidth = UIScreen.main.bounds.size.width
-   static let screenHeight = UIScreen.main.bounds.size.height
-   static let screenSize = UIScreen.main.bounds.size
+        .environmentObject(ViewModel())
 }

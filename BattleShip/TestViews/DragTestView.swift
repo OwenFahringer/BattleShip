@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct DragTestView: View {
-    @State var ships: Ship = Ship(id: 1, size:4, position: CGPoint(x: 80, y: 420), originalPosition: CGPoint(x: 80, y: 420))
+    @State var ships: Ship = Ship(id: 1, size:4, position: CGPoint(x: 80, y: 420), originalPosition: CGPoint(x: 80, y: 420), rotated: false)
     @State var xpos: CGFloat = 0
     @State var ypos: CGFloat = 0
     var body: some View {

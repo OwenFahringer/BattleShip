@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var vm: ViewModel = ViewModel()
+    @EnvironmentObject var vm: ViewModel
     var body: some View {
         VStack{
             BoardBuilder()

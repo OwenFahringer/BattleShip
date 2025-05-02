@@ -19,11 +19,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct BattleShipApp: App {
+    @StateObject var vm: ViewModel = ViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    var body: some Scene {@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    var body: some Scene {
         WindowGroup {
             NavigationView{
                 ContentView()
+                    .environmentObject(vm)
             }
         }
     }
