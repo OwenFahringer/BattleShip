@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DraggableShipView: View {
-    @EnvironmentObject var vm: ViewModel
+    @EnvironmentObject var vm: BoardBuilderViewModel
     @Binding var ship: Ship
     let cellSize: CGFloat
     let gridSize: Int
@@ -44,16 +44,17 @@ struct DraggableShipView: View {
     }
     
     private func newSnapToGrid(){
+        //snaps to the proper location but looks somewhat odd because the snap occurs to the right always by half of the ships length.
         xMinDist = 500
         yMinDist = 500
         for i in 0 ..< 10{
             //Gets the tile with the minimum y distance from a cell
-            if(xMinDist >= abs(ship.position.x - (vm.xSnapLocations[i]) + (ship.rotated ? 0 : 17.5))){
+            if(xMinDist >= abs(ship.position.x - (vm.xSnapLocations[i]))){
                 xCount = i
-                xMinDist = abs(ship.position.x - (vm.xSnapLocations[i] + (ship.rotated ? 0 : 17.5)))
+                xMinDist = abs(ship.position.x - (vm.xSnapLocations[i]))
             }
             //Gets the tile with the minimum x distance from a cell
-            if(yMinDist >= abs(ship.position.y - (vm.ySnapLocations[i]) + (ship.rotated ? 17.5 : 0))){
+            if(yMinDist >= abs(ship.position.y - (vm.ySnapLocations[i]))){
                 yCount = i
                 yMinDist = abs(ship.position.y - vm.ySnapLocations[i])
             }
@@ -65,7 +66,7 @@ struct DraggableShipView: View {
         }
         if(ship.rotated){//vertical
             if(yCount + ship.size-1 < vm.ySnapLocations.count){
-                ship.position.y = vm.ySnapLocations[yCount]
+                ship.position.y = vm.ySnapLocations[yCount] + CGFloat(ship.size) * (cellSize/2)
                 ship.position.x = vm.xSnapLocations[xCount]
             }else{
                 ship.position.x = ship.originalPosition.x
@@ -73,20 +74,23 @@ struct DraggableShipView: View {
             }
         }else{//horizontal
             if(xCount + ship.size-1 < vm.xSnapLocations.count){
-                ship.position.x = vm.xSnapLocations[xCount]
+                ship.position.x = vm.xSnapLocations[xCount] + CGFloat(ship.size) * (cellSize/2)
                 ship.position.y = vm.ySnapLocations[yCount]
             }else{
                 ship.position.x = ship.originalPosition.x
                 ship.position.y = ship.originalPosition.y
             }
         }
+    //    if(ship.position != ship.originalPosition){
+    //
+    //    }
     }
 }
 
 
-#Preview{
-    ContentView()
-        .environmentObject(ViewModel())
+#Preview {
+    ContentView(ID: .constant(""))
+        .environmentObject(BoardBuilderViewModel())
 }
 
 

@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Binding var ID: String
     var body: some View {
         VStack{
+            Text("\(ID)")
             BoardBuilder()
         }
+        .background(
+            ZStack(alignment: .top) {
+            Color.black.edgesIgnoringSafeArea(.all)
+
+            LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.black]), startPoint: .top, endPoint: .bottom)
+                .frame(height: 200)
+                .edgesIgnoringSafeArea(.all)
+            }
+        )
 //        .onAppear(){
 //            vm.buildAxisArrays()
 //        }
@@ -20,5 +30,6 @@ struct ContentView: View {
 }
 
 #Preview{
-    ContentView()
+    ContentView(ID: .constant(""))
+        .environmentObject(BoardBuilderViewModel())
 }

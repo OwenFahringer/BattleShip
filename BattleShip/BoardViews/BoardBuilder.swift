@@ -15,7 +15,8 @@
 import SwiftUI
 
 struct BoardBuilder: View {
-    @EnvironmentObject var vm: ViewModel
+    @EnvironmentObject var bbvm: BoardBuilderViewModel
+    var allShipsPlaced: Bool = false
     var selectedColor = Color.yellow
     let gridSize = 10
     var body: some View {
@@ -36,9 +37,9 @@ struct BoardBuilder: View {
                         ForEach(0..<10, id: \.self) { row in
                             HStack(spacing: 0) {
                                 ForEach(0..<10, id: \.self) { col in
-                                    RoundedRectangle(cornerRadius:0)//Tile rect
+                                    RoundedRectangle(cornerRadius:3)//Tile rect
                                         .stroke(lineWidth: 1)
-                                        .frame(width: vm.cellSize, height: vm.cellSize)
+                                        .frame(width: bbvm.cellSize, height: bbvm.cellSize)
                                         .foregroundStyle(Color.normBlue)
                                         .shadow(color: .cyan ,radius: 2)
                                 }
@@ -49,15 +50,7 @@ struct BoardBuilder: View {
                 .position(x:UIScreen.screenWidth/2 ,y:250)
                 
                     Button{
-//                        if(vm.isRotated){
-//                            vm.isRotated = false
-//                            ForEach(vm.ships){_ in 
-//                                
-//                            }
-//                        }else{
-//                            vm.isRotated = true
-//                        }
-                        
+                        bbvm.isRotated = bbvm.isRotated ? false : true
                     }label:{
                         Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
                             .frame(width:35, height:35)
@@ -71,7 +64,12 @@ struct BoardBuilder: View {
                     .opacity(0.8)
                     .position(x:UIScreen.screenWidth/2, y: 680)
                     Button{
-                        
+                        //test
+                        makeTestLocations()
+                        Task{
+                            try await bbvm.publishToFirebase()
+                            
+                        }
                     }label:{
                         Text("Confirm")
                             .frame(width:80, height:30)
@@ -91,12 +89,17 @@ struct BoardBuilder: View {
             ShipPlace()
         }
         .onAppear(){
-            vm.buildAxisArrays()
+            bbvm.buildAxisArrays()
+        }
+    }
+    func makeTestLocations() {
+        for i in 0..<10 {
+            bbvm.selfBoardStatus[i][0] = true
         }
     }
 }
 
 #Preview {
-    ContentView()
-        .environmentObject(ViewModel())
+    ContentView(ID: .constant(""))
+        .environmentObject(BoardBuilderViewModel())
 }

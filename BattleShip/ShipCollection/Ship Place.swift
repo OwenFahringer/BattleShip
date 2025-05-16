@@ -13,8 +13,11 @@ struct ShipPlace: View {
     let cellSize: CGFloat = 35
     
     @State private var ships: [Ship] = [
-        Ship(id: 0, size: 3, position: CGPoint(x: 40, y: 420), originalPosition: CGPoint(x: 40, y: 420), rotated: false),
-        Ship(id: 1, size: 4, position: CGPoint(x: 250, y: 420), originalPosition: CGPoint(x: 250, y: 420), rotated: false)
+        Ship(id: 0, size: 1, position: CGPoint(x: 50, y: 300), originalPosition: CGPoint(x: 50, y: 300), rotated: false),
+        Ship(id: 1, size: 2, position: CGPoint(x: 155, y: 300), originalPosition: CGPoint(x: 155, y: 300), rotated: false),
+        Ship(id: 2, size: 3, position: CGPoint(x: 275, y: 300), originalPosition: CGPoint(x: 275, y: 300), rotated: false),
+        Ship(id: 3, size: 4, position: CGPoint(x: 80, y: 400), originalPosition: CGPoint(x: 80, y: 400), rotated: false),
+        Ship(id: 4, size: 5, position: CGPoint(x: 260, y: 400), originalPosition: CGPoint(x: 260, y: 400), rotated: false),
     ]
     
     var body: some View {
@@ -35,4 +38,10 @@ struct ShipPlaceView: View{
     var body: some View{
         ShipPlace()
     }
+}
+
+
+#Preview {
+    ContentView(ID: .constant(""))
+        .environmentObject(BoardBuilderViewModel())
 }

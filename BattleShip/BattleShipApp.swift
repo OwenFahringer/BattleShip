@@ -19,13 +19,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct BattleShipApp: App {
-    @StateObject var vm: ViewModel = ViewModel()
+    @StateObject var bbvm: BoardBuilderViewModel = BoardBuilderViewModel()
+    @StateObject var msvm: MoveSelectVM = MoveSelectVM()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
             NavigationView{
-                ContentView()
-                    .environmentObject(vm)
+                ContentView(ID: .constant(""))
+                    .environmentObject(bbvm)
+                    .environmentObject(msvm)
             }
         }
     }

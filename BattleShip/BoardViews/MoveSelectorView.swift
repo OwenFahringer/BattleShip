@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct PickerBoard: View {
+    @EnvironmentObject var msvm: MoveSelectVM
+    @EnvironmentObject var vm: ViewModel
+    
     @State var selectedTile = [0,0]
     @State var selected = false
     @State var selectedColor = Color.yellow
@@ -36,8 +39,9 @@ struct PickerBoard: View {
                                         ZStack{
                                             if isAlreadyGuessed(tile: [row,col]) {
                                                 Image(systemName: "x.circle")
+                                                    .shadow(color: .black, radius: 3)
                                                     .font(.title2)
-                                                    .foregroundColor(.red)
+                                                    .foregroundColor(tileIsCorrect(tile: [row,col]) ? .green : .red)
                                             }
                                             RoundedRectangle(cornerRadius:3)//Tile rect
                                                 .stroke(lineWidth: 1)
@@ -56,12 +60,12 @@ struct PickerBoard: View {
             Spacer()
                 .frame(height:20)
             Text("Currently selected: \(selectedTile[0]), \(selectedTile[1])")
-            Button(action: {
+            Button{
                 if !isAlreadyGuessed(tile: selectedTile) { 
                     guessedTiles.append(selectedTile)
                     print(selectedTile)
                 }
-            }) {
+            } label: {
                 Text("Confirm")
                     .foregroundStyle(.white)
                     .padding()
@@ -80,7 +84,8 @@ struct PickerBoard: View {
         return guessedTiles.contains(tile)
     }
     func tileIsCorrect(tile: [Int]) -> Bool {
-        return true
+        //opponentCorrectTiles is an array of an array of ints that stores 2 values each first corresponds to x second to y
+        return msvm.opponentCorrectTiles.contains { $0 == tile }
     }
 }
 

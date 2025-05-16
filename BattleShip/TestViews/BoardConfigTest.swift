@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct BoardConfigTest:View {
-    @State var board: [[cellTracking]] = Array(
-        repeating: Array(repeating: .empty, count: 10),
+    @State var board: [[Bool]] = Array(
+        repeating: Array(repeating: false, count: 10),
         count: 10
     )
 
     var body: some View {
         Button("Change slot"){
-            board[0][0] = .occupied
-            print("slot changed")
+            if(!board[0][0]){
+                board[0][0] = true
+                print("slot changed")
+            }
         }
         Button("Print Slot"){
             print(board[0][0])
